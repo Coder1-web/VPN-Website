@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Outfit:wght@100;200;300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: url('D:/Program Files/vpn website/logo.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #00FF00; /* Green text color for dark web theme */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 350px;
+    max-width: 90%; /* Responsive width */
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px #00FF00; /* Green glow effect */
+    animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+    text-align: center; /* Center text */
+    position: relative; /* For absolute positioning of buttons */
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+.connect-button, .disconnect-button {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 20px #00FF00; /* Green glow effect for connect button */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transition */
+    position: relative;
+}
+
+.connect-button {
+    background: #4071FF;
+}
+
+.disconnect-button {
+    background: #FF0000; /* Red background */
+    box-shadow: 0 0 20px #FF0000; /* Red glow effect */
+}
+
+.connect-button:hover, .disconnect-button:hover {
+    transform: scale(1.1); /* Slight scale effect on hover */
+}
+
+.spinner {
+    border: 5px solid rgba(0, 0, 0, 0.1); /* Light background */
+    border-left: 5px solid #ffffff; /* Blue foreground */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Hide spinner initially */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes boost {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); box-shadow: 0 0 40px #4071FF; }
+    100% { transform: scale(1); }
+}
+
+@keyframes increase {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.vpn-info {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #00FF00; /* Green color */
+}
+
+.info-item {
+    margin: 10px 0;
+    animation: increase 2s ease-in-out; /* Animation for each info item */
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .connect-button, .disconnect-button {
+        width: 80px;
+        height: 80px;
+        font-size: 1.2em;
+    }
+}

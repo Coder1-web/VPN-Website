@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Inline styles for quick reference */
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: url('D:/Program Files/vpn website/logo.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            height: 600px;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .connect-button, .disconnect-button {
+            background: #4071FF; /* Blue background */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 0 20px #4071FF; /* Blue glow effect */
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transitions */
+        }
+
+        .connect-button:active {
+            background: #0056b3; /* Darker blue when clicked */
+            transform: scale(0.95); /* Slight scale down effect */
+        }
+
+        .disconnect-button {
+            background: #FF0000; /* Red background */
+            box-shadow: 0 0 20px #FF0000; /* Red glow effect */
+        }
+
+        .disconnect-button:active {
+            background: #cc0000; /* Darker red when clicked */
+            transform: scale(0.95); /* Slight scale down effect */
+        }
+
+        .spinner {
+            border: 5px solid rgba(0, 0, 0, 0.1); /* Light background */
+            border-left: 5px solid #ffffff; /* White foreground */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 1s linear infinite;
+            display: none; /* Hide spinner initially */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes boost {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); box-shadow: 0 0 40px #4071FF; }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes increase {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .vpn-info {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #00FF00; /* Green color */
+        }
+
+        .info-item {
+            margin: 10px 0;
+            animation: increase 2s ease-in-out; /* Animation for each info item */
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            .connect-button, .disconnect-button {
+                width: 80px;
+                height: 80px;
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <button class="connect-button">Connect</button>
+        <button class="disconnect-button">Disconnect</button>
+        <div class="vpn-info">
+            <div class="info-item">Server: Not Connected</div>
+            <div class="info-item">Duration: <span id="duration">00:00:00</span></div>
+            <div class="info-item">Download: <span id="download">0.00 MB/s</span></div>
+            <div class="info-item">Upload: <span id="upload">0.00 MB/s</span></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const connectButton = document.querySelector('.connect-button');
+            const disconnectButton = document.querySelector('.disconnect-button');
+            const spinner = document.querySelector('.spinner');
+            const statusText = document.querySelector('.vpn-info');
+
+            connectButton.addEventListener('click', () => {
+                spinner.style.display = 'block'; // Show spinner
+
+                // Simulate connection delay
+                setTimeout(() => {
+                    spinner.style.display = 'none'; // Hide spinner
+                    statusText.innerHTML = `
+                        <div class="info-item">Server: Connected</div>
+                        <div class="info-item">Duration: <span id="duration">00:00:00</span></div>
+                        <div class="info-item">Download: <span id="download">0.00 MB/s</span></div>
+                        <div class="info-item">Upload: <span id="upload">0.00 MB/s</span></div>
+                    `;
+
+                    // Start updating download and upload speeds
+                    updateSpeeds();
+                    startTimer();
+                }, 2000); // 2 seconds delay for connection
+            });
+
+            disconnectButton.addEventListener('click', () => {
+                // Add disconnection logic here
+                statusText.innerHTML = `
+                    <div class="info-item">Server: Not Connected</div>
+                    <div class="info-item">Duration: 00:00:00</div>
+                    <div class="info-item">Download: 0.00 MB/s</div>
+                    <div class="info-item">Upload: 0.00 MB/s</div>
+                `;
+                // Stop updating speeds and timer if needed
+            });
+
+            function updateSpeeds() {
+                const download = document.getElementById('download');
+                const upload = document.getElementById('upload');
+
+                setInterval(() => {
+                    const randomDownload = (Math.random() * 10).toFixed(2);
+                    const randomUpload = (Math.random() * 10).toFixed(2);
+                    download.textContent = `${randomDownload} MB/s`;
+                    upload.textContent = `${randomUpload} MB/s`;
+                }, 1000); // Update every second
+            }
+
+            function startTimer() {
+                const duration = document.getElementById('duration');
+                let seconds = 0;
+
+                setInterval(() => {
+                    seconds++;
+                    const hours = Math.floor(seconds / 3600).toString().padStart(2, '0');
+                    const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+                    const secs = (seconds % 60).toString().padStart(2, '0');
+                    duration.textContent = `${hours}:${minutes}:${secs}`;
+                }, 1000); // Update every second
+            }
+        });
+    </script>
+</body>
+</html>
